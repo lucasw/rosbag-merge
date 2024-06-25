@@ -79,7 +79,9 @@ def main(input_bags: 'list[str]', topics: 'list[str]', output_path: str, outbag_
                     input_bags.remove(bag_name)
 
         # open the output bag in an automatically closing context
-        with Writer(full_bag_path) as output_bag:
+        output_bag = Writer(full_bag_path)
+        output_bag.set_compression(Writer.CompressionFormat.LZ4)
+        if True:
             conn_map = {}
             def read_messages_generator(): return read_messages(input_bags, topics=topics)
             total = len(list(read_messages_generator()))
